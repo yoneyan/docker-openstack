@@ -1,0 +1,10 @@
+version: '3'
+services:
+    keystone:
+        image: yoneyan/openstack-keystone:0.3
+        container_name: openstack-keystone
+        ports:
+            - 5000:5000
+            - 35357:35357
+        restart: always
+
