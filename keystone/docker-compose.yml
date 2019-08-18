@@ -7,4 +7,15 @@ services:
             - 5000:5000
             - 35357:35357
         restart: always
+        privileged: true
+        networks:
+            app_net:
+                ipv4_address: 10.30.0.2
 
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+     driver: default
+     config:
+       - subnet: 10.30.0.0/24
