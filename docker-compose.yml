@@ -19,6 +19,9 @@ services:
             - 9292:9292
         restart: always
         privileged: true
+        volumes:
+            - ./config/glance-api.conf:/etc/glance/glance-api.conf
+            - ./volumes/image:/var/lib/glance/images
         networks:
             app_net:
                 ipv4_address: 10.30.0.3
