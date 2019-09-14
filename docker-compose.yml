@@ -3,7 +3,6 @@ services:
     database:
         build: service/database
         container_name: openstack-database
-        command: --max_allowed_packet=32505856
         ports:
             - 3306:3306
         volumes:
@@ -54,7 +53,6 @@ services:
         restart: always
         privileged: true
         volumes:
-            - ./config/glance-api.conf:/etc/glance/glance-api.conf
             - ./volumes/image:/var/lib/glance/images
         networks:
             app_net:
@@ -71,6 +69,25 @@ services:
         networks:
             app_net:
                 ipv4_address: 10.30.0.4
+
+    neutron:
+        build: service/neutron
+        container_name: openstack-neutron
+        restart: always
+        privileged: true
+        networks:
+            app_net:
+                ipv4_address: 10.30.0.20
+
+#Computing Node Test
+    nova:
+        build: service/nova
+        container_name: openstack-nova
+        restart: always
+        privileged: true
+        networks:
+            app_net:
+                ipv4_address: 10.30.0.20
 
 networks:
   app_net:
