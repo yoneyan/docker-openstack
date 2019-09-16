@@ -23,7 +23,8 @@ services:
                 ipv4_address: 10.30.0.11
 
     rabbitmq:
-        image: rabbitmq:3.7-rc-alpine
+        build: service/rabbitmq
+        container_name: openstack-rabbitmq
         ports:  
             - 5672:5672
             - 15672:15672
@@ -79,15 +80,24 @@ services:
             app_net:
                 ipv4_address: 10.30.0.5
 
-#Computing Node Test
-    nova:
+    nova-api:
         build: service/nova
-        container_name: openstack-nova
+        container_name: openstack-nova-api
+        ports:  
+            - 6080:6080
+            - 6081:6081
+            - 6082:6082
+            - 8774:8774
+            - 8775:8775
+            - 8778:8778
         restart: always
         privileged: true
         networks:
             app_net:
-                ipv4_address: 10.30.0.20
+                ipv4_address: 10.30.0.6
+
+#Computing Node Test
+
 
 networks:
   app_net:

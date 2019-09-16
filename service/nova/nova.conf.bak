@@ -1,0 +1,52 @@
+[DEFAULT]
+my_ip = 10.30.0.6
+state_path = /var/lib/nova
+enabled_apis = osapi_compute,metadata
+log_dir = /var/log/nova
+#transport_url = rabbit://openstack:password@10.30.0.12
+
+[api]
+auth_strategy = keystone
+
+# Glance
+[glance]
+api_servers = http://10.30.0.3:9292
+
+[oslo_concurrency]
+lock_path = $state_path/tmp
+
+# MariaDB
+[api_database]
+connection = mysql+pymysql://nova:password@10.30.0.10/nova_api
+
+[database]
+connection = mysql+pymysql://nova:password@10.30.0.10/nova
+
+# Keystone サーバー接続情報
+[keystone_authtoken]
+www_authenticate_uri = http://10.30.0.2:5000
+auth_url = http://10.30.0.2:5000
+#memcached_servers = 10.30.0.11:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = nova
+password = servicepassword
+
+[placement]
+auth_url = http://10.30.0.2:5000
+os_region_name = RegionOne
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = placement
+password = servicepassword
+
+[placement_database]
+connection = mysql+pymysql://nova:password@10.30.0.20/nova_placement
+
+[wsgi]
+api_paste_config = /etc/nova/api-paste.ini
+
