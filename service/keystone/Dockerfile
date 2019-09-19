@@ -21,6 +21,7 @@ EXPOSE 5000
 EXPOSE 35357
 
 RUN ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/
-RUN systemctl enable httpd
+#RUN systemctl enable httpd
 
-CMD ["/sbin/init"]
+#CMD ["/sbin/init"]
+CMD ["/usr/sbin/httpd", "-DFOREGROUND"]
