@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keystone
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: keystone
+  template:
+    metadata:
+      labels:
+        app: keystone
+    spec:
+      containers:
+        - name: keystone
+          image: yoneyan/openstack-keystone:1.0
+          port:

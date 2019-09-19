@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: horizon
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: horizon
+  template:
+    metadata:
+      labels:
+        app: horizon
+    spec:
+      containers:
+        - name: horizon
+          image: yoneyan/openstack-horizon:0.2
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keystone-service
+spec:
+  type: NodePort
+  ports:
+    - name: public
+      port: 30001
+      targetPort: 80
+      nodePort: 30001
+      protocol: TCP
+  ports:
+    - name: ssl
+      port: 30002
+      targetPort: 443
+      nodePort: 30002
+      protocol: TCP
+  selector:
+    app: keystone
