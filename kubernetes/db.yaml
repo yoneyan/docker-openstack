@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+type: Opaque
+data:
+  ROOT_PASSWORD: bXlwYXNz
+  DATABASE: keystone
+  USER: keystone
+  PASSWORD: password
+---
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlCluster
+metadata:
+  name: my-cluster
+spec:
+  replicas: 2
+  secretName: my-secret

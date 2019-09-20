@@ -1,27 +1,35 @@
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: mysql-config
-data:
-  my.cnf: |-
-    [mysqld]
-    default_authentication_plugin=mysql_native_password
----
 apiVersion: v1
 kind: Secret
 metadata:
-  name: wordpress-mysql-root-password
+  name: my-secret
+type: Opaque
 data:
-  password: bXktc3VwZXItc2VjcmV0LXBhc3M=
+  ROOT_PASSWORD: password
+  USER: keystone
+  PASSWORD: password
+  DATABASE: keystone
 ---
-apiVersion: mysql.oracle.com/v1alpha1
-kind: Cluster
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlCluster
 metadata:
-  name: mysql-wordpress
+  name: my-cluster
 spec:
-  members: 3
-  config:
-    name: mysql-config
-  rootPasswordSecret:
-    name: wordpress-mysql-root-password
-
+  replicas: 3
+  secretName: my-secret
+  ports:
+    - containerPort: 3306
+---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: database-service
+#spec:
+#  type: NodePort
+#  ports:
+#    - name: public
+#      port: 30001
+#      targetPort: 3306
+#      nodePort: 30001
+#      protocol: TCP
+#  selector:
+#    app: my-cluster
